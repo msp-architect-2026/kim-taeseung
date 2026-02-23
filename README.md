@@ -1,6 +1,7 @@
 # 🔮 Kube-Fortune 
 
 > **개발자를 위한 AI 운세 & 인프라 무드등 대시보드**
+>
 > 온프레미스 Kubernetes(ARM64) 환경에서 MSA 기반 웹 애플리케이션을 구축하고, GitOps 파이프라인과 외부 AI API(Gemini) 연동을 시연하기 위한 포트폴리오 프로젝트입니다.
 
 ---
