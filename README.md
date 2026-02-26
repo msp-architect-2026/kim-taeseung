@@ -1,8 +1,29 @@
 # 🔮 Kube-Fortune 
 
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=soft&color=0f172a&height=250&section=header&text=Kube-Fortune&fontSize=70&animation=fadeIn&fontColor=a8a2f8&desc=개발자를%20위한%20AI%20운세%20및%20인프라%20무드등%20대시보드&descSize=20&descAlignY=75" alt="header" />
+</div>
+<br>
+<div align="center">
+
+
 > **개발자를 위한 AI 운세 & 인프라 무드등 대시보드**
 >
 > 온프레미스 Kubernetes(ARM64) 환경에서 MSA 기반 웹 애플리케이션을 구축하고, GitOps 파이프라인과 외부 AI API(Gemini), 그리고 **데이터 영속성(Persistent Volume)** 연동을 시연하기 위한 포트폴리오 프로젝트입니다.
+
+<br>
+
+### 🛠️ Tech Stack
+
+<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"> <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white"> <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white">
+<br>
+<img src="https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white"> <img src="https://img.shields.io/badge/Google_Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+<br>
+<img src="https://img.shields.io/badge/Ubuntu_22.04-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"> <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white"> <img src="https://img.shields.io/badge/GitLab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white"> <img src="https://img.shields.io/badge/ArgoCD-EF7B4D?style=for-the-badge&logo=argo&logoColor=white"> <img src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=helm&logoColor=white"> <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=white">
+
+</div>
+
+<br>
 
 ---
 
