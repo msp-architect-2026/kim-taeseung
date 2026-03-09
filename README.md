@@ -17,9 +17,9 @@
 
 <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"> <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white"> <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white">
 <br>
-<img src="https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white"> <img src="https://img.shields.io/badge/Google_Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+<img src="https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white"> <img src="https://img.shields.io/badge/Google_Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/DBUtils-4479A1?style=for-the-badge&logo=python&logoColor=white">
 <br>
-<img src="https://img.shields.io/badge/Ubuntu_22.04-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"> <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white"> <img src="https://img.shields.io/badge/GitLab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white"> <img src="https://img.shields.io/badge/ArgoCD-EF7B4D?style=for-the-badge&logo=argo&logoColor=white"> <img src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=helm&logoColor=white"> <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=white">
+<img src="https://img.shields.io/badge/Ubuntu_22.04-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"> <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white"> <img src="https://img.shields.io/badge/MetalLB-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white"> <img src="https://img.shields.io/badge/GitLab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white"> <img src="https://img.shields.io/badge/ArgoCD-EF7B4D?style=for-the-badge&logo=argo&logoColor=white"> <img src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=helm&logoColor=white"> <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=white"> <img src="https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white"> <img src="https://img.shields.io/badge/k6-7D64FF?style=for-the-badge&logo=k6&logoColor=white">
 
 </div>
 
@@ -31,8 +31,8 @@
 Kube-Fortune은 단순한 운세 서비스를 넘어, 쿠버네티스 클러스터의 상태를 유머러스하게 시각화하고 사용자 데이터를 안전하게 관리하는 Stateful 웹 애플리케이션입니다. 
 
 - **프론트엔드 (React):** 점진적 정보 공개(Progressive Disclosure) UI 및 Nginx 기반 정적 서빙
-- **백엔드 (Flask):** K8s Metrics API 연동, Google Gemini API 프롬프트 엔지니어링 및 MySQL ORM 제어
-- **인프라:** ARM64 환경 기반의 온프레미스 K8s, GitOps (ArgoCD) 및 외부 트래픽 라우팅 (Ingress-Nginx)
+- **백엔드 (Flask):** K8s Metrics API 연동, Google Gemini API 프롬프트 엔지니어링 및 MySQL ORM 제어. DBUtils 커넥션 풀 적용으로 고부하 환경에서의 DB 커넥션 경합 해소
+- **인프라:** ARM64 환경 기반의 온프레미스 K8s, GitOps(ArgoCD), 외부 트래픽 라우팅(Ingress-Nginx + MetalLB LoadBalancer), 노드 복구 자동화(Ansible)
 - **데이터 영속성 (Stateful Architecture):** 초기 PoC 단계의 브라우저 `localStorage` 의존도를 벗어나, 클러스터 내부에 **MySQL** 데이터베이스를 배포했습니다. Kubernetes의 **PV(Persistent Volume) 및 PVC**를 연동하여, 파드가 삭제되거나 재시작되더라도 사용자의 닉네임과 사주 보관함 데이터가 영구적으로 보존되는 엔터프라이즈급 상태 유지(Stateful) 아키텍처를 구현했습니다.
 
 
