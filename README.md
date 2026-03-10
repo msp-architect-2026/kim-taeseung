@@ -110,13 +110,15 @@ K8s PV/PVC와 연동되어 데이터 영속성을 보장하는 핵심 테이블 
 </details>
 
 ---
-
 ## 📚 5. 상세 문서 및 회고 (Wiki)
 
 아키텍처 도면부터 부하 테스트 리포트까지, 프로젝트의 모든 의사결정과 엔지니어링 기록은 아래 Wiki에 상세히 문서화되어 있습니다. 관심 있는 주제의 링크를 클릭하여 상세한 내용을 확인해 보세요.
 
-* **[🏠 Home (프로젝트 개요)](https://github.com/msp-architect-2026/kim-taeseung/wiki)**
-  * Kube-Fortune 프로젝트의 전반적인 기획 의도와 6가지 핵심 목표, 전체 화면 구성 요소(Progressive Disclosure UI 등)를 한눈에 파악할 수 있습니다.
+* **[🏠 Home (프로젝트 위키 홈)](https://github.com/msp-architect-2026/kim-taeseung/wiki)**
+  * 전체 위키 문서의 네비게이션 허브 역할을 하며, 각 엔지니어링 단계별 상세 문서로 바로 이동할 수 있는 인덱스를 제공합니다.
+
+* **[🎯 Project Story & Features (기획 의도 및 서비스 소개)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Project-Story-and-Features)**
+  * 단순한 새로고침(F5)을 막기 위한 인프라 무드등부터, 트래픽 라우팅을 증명하는 LB 배지까지 Kube-Fortune이 탄생하게 된 기획 의도와 6대 핵심 기술 목표를 소개합니다.
 
 * **[🛠️ Tech Stack & Decisions (기술 선정 배경)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Tech-Stack-and-Decisions)**
   * 왜 클릭 몇 번으로 가능한 관리형 클라우드를 두고 온프레미스 `kubeadm`을 선택했는지, 무거운 Docker Engine 대신 `containerd`를 도입한 이유가 무엇인지 등 각 기술 스택의 트레이드오프(Trade-offs)와 엄밀한 선정 배경을 다룹니다.
