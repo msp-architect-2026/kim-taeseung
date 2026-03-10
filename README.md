@@ -6,83 +6,140 @@
 <br>
 <div align="center">
 
-
-> **개발자를 위한 AI 운세 & 인프라 무드등 대시보드**
+> **개발자를 위한 AI 운세 & 실시간 인프라 상태 모니터링 대시보드**
 >
-> 온프레미스 Kubernetes(ARM64) 환경에서 MSA 기반 웹 애플리케이션을 구축하고, GitOps 파이프라인과 외부 AI API(Gemini), 그리고 **데이터 영속성(Persistent Volume)** 연동을 시연하기 위한 프로젝트입니다.
+> 온프레미스 Kubernetes(ARM64) 환경에서 MSA 기반 웹 애플리케이션을 구축하고, GitOps 파이프라인, 외부 AI API(Gemini), 그리고 **데이터 영속성(Persistent Volume)** 연동을 직접 시연하기 위해 구축한 프로젝트입니다.
+
+</div>
 
 <br>
 
-### 🛠️ Tech Stack
+## 🛠️ Tech Stack
 
-<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"> <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white"> <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white">
-<br>
-<img src="https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white"> <img src="https://img.shields.io/badge/Google_Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/DBUtils-4479A1?style=for-the-badge&logo=python&logoColor=white">
-<br>
-<img src="https://img.shields.io/badge/Ubuntu_22.04-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"> <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white"> <img src="https://img.shields.io/badge/MetalLB-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white"> <img src="https://img.shields.io/badge/GitLab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white"> <img src="https://img.shields.io/badge/ArgoCD-EF7B4D?style=for-the-badge&logo=argo&logoColor=white"> <img src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=helm&logoColor=white"> <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=white"> <img src="https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white"> <img src="https://img.shields.io/badge/k6-7D64FF?style=for-the-badge&logo=k6&logoColor=white">
-
+<div align="center">
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"> 
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white"> 
+  <br>
+  
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Google_Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white"> 
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
+  <img src="https://img.shields.io/badge/DBUtils-4479A1?style=for-the-badge&logo=python&logoColor=white">
+  <br>
+  
+  <img src="https://img.shields.io/badge/Ubuntu_22.04-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white"> 
+  <img src="https://img.shields.io/badge/MetalLB-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=helm&logoColor=white"> 
+  <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=white"> 
+  <br>
+  
+  <img src="https://img.shields.io/badge/GitLab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white"> 
+  <img src="https://img.shields.io/badge/ArgoCD-EF7B4D?style=for-the-badge&logo=argo&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white"> 
+  <img src="https://img.shields.io/badge/k6-7D64FF?style=for-the-badge&logo=k6&logoColor=white">
 </div>
 
 <br>
 
 ---
 
-## 1. 프로젝트 개요
-Kube-Fortune은 단순한 운세 서비스를 넘어, 쿠버네티스 클러스터의 상태를 유머러스하게 시각화하고 사용자 데이터를 안전하게 관리하는 Stateful 웹 애플리케이션입니다. 
+## 💡 프로젝트 개요 (Overview)
 
-- **프론트엔드 (React):** 점진적 정보 공개(Progressive Disclosure) UI 및 Nginx 기반 정적 서빙
-- **백엔드 (Flask):** K8s Metrics API 연동, Google Gemini API 프롬프트 엔지니어링 및 MySQL ORM 제어. DBUtils 커넥션 풀 적용으로 고부하 환경에서의 DB 커넥션 경합 해소
-- **인프라:** ARM64 환경 기반의 온프레미스 K8s, GitOps(ArgoCD), 외부 트래픽 라우팅(Ingress-Nginx + MetalLB LoadBalancer), 노드 복구 자동화(Ansible)
-- **데이터 영속성 (Stateful Architecture):** 초기 PoC 단계의 브라우저 `localStorage` 의존도를 벗어나, 클러스터 내부에 **MySQL** 데이터베이스를 배포했습니다. Kubernetes의 **PV(Persistent Volume) 및 PVC**를 연동하여, 파드가 삭제되거나 재시작되더라도 사용자의 닉네임과 사주 보관함 데이터가 영구적으로 보존되는 엔터프라이즈급 상태 유지(Stateful) 아키텍처를 구현했습니다.
-
-
+Kube-Fortune은 표면적으로는 클러스터의 상태를 시각화하여 개발자들에게 소소한 즐거움을 제공하는 애플리케이션입니다. 하지만 이를 지탱하는 인프라는 클라우드 관리형 서비스(EKS, GKE)에 의존하지 않고, 제한된 온프레미스 자원 안에서 **고가용성, 무중단 배포, 데이터 영속성** 등 실제 엔터프라이즈 환경의 요구사항을 밑바닥부터 구현하고 검증하는 데 목적을 두었습니다.
 
 ---
 
-## 2. 화면 구성 (Screen Composition)
-애플리케이션 화면은 크게 4가지 핵심 기능 영역으로 나뉩니다.
+## ✨ 핵심 기능 (Features & UI)
 
-1. **Header [인프라 무드등]:** K8s 파드의 실시간 CPU 사용량(millicores)을 측정하여 상태(쾌적, 보통, 위험)에 따라 이모지와 색상이 변하는 대시보드.
-2. **Main [AI 사주풀이]:** 이름, 생년월일, 직군을 입력하면 Gemini AI가 개발자 맞춤형 용어(버그, 배포, 커밋 등)를 섞어 운세를 풀어주는 메인 기능.
-3. **Tab [사주 보관함 & 가상 로그인]:** 닉네임 기반의 로그인 시스템을 통해 자신이 조회한 프리미엄 사주를 DB에 영구 저장하고, 언제든 다시 꺼내볼 수 있는 보관함 탭 기능.
-4. **Footer [로드밸런싱 배지]:** K8s Service의 라우팅(Round-Robin)을 시각적으로 증명하기 위해, 현재 응답을 처리한 백엔드 파드의 실제 이름(Hostname)을 실시간 출력.
-
----
-
-## 3. API 명세 (API Specification)
-백엔드(`fortune-backend-svc:5000`)에서 프론트엔드와 통신하기 위해 제공하는 RESTful API 목록입니다.
-
-| Method | Endpoint | Description | Request Body / Params |
-| :--- | :--- | :--- | :--- |
-| **GET** | `/api/health` | 파드 헬스체크 (Liveness/Readiness) | - |
-| **GET** | `/api/status` | 파드 CPU 메트릭 및 무드등 상태 조회 | - |
-| **POST** | `/api/fortune` | 사용자 정보 기반 AI 운세 생성 | `{"name": "...", "birthday": "...", "role": "..."}` |
-| **POST** | `/api/login` | 닉네임 확인 및 신규 사용자 DB 등록 | `{"nickname": "버그킬러"}` |
-| **POST** | `/api/fortunes/save` | 운세 결과를 MySQL 보관함에 영구 저장 | `{"nickname": "...", "fortune": "...", ...}` |
-| **GET** | `/api/fortunes/<nickname>` | 특정 사용자의 전체 운세 보관함 리스트 조회 | URL Parameter: `nickname` |
-| **DELETE**| `/api/fortunes/<nickname>/<id>`| 보관함 내 특정 운세 내역 단건 삭제 | URL Parameter: `nickname`, `id` |
+* 🔮 **AI 사주풀이 (Gemini 연동):** 이름, 직군 등을 입력하면 AI가 '버그, 배포, 커밋' 등 개발자 친화적인 용어를 섞어 맞춤형 운세를 제공합니다.
+* 🚥 **인프라 무드등 (Observability):** K8s 파드의 실시간 CPU 사용량(millicores)을 측정해 대시보드 상단의 이모지와 색상이 💤 idle → 👨‍💻 normal → 🔥 hot 상태로 변화합니다.
+* 💾 **사주 보관함 (Stateful DB):** K8s PV(Persistent Volume)와 MySQL을 연동하여, 파드가 예기치 않게 종료되거나 재시작되어도 사용자의 사주 데이터가 절대 유실되지 않습니다.
+* ⚖️ **로드밸런싱 배지:** 화면 하단에 현재 응답을 처리한 실제 백엔드 파드의 호스트명(Hostname)을 실시간으로 출력하여 K8s의 트래픽 라우팅을 시각적으로 증명합니다.
 
 ---
 
-## 4. 데이터베이스 스키마 (Database Schema)
-데이터 영속성을 보장하기 위해 도입된 K8s 내부 MySQL의 핵심 테이블 구조입니다. (앱 기동 시 백엔드 컨테이너가 10회 재시도 로직을 통해 자동 초기화 및 테이블 생성을 수행합니다.)
+## 🚀 기술적 핵심 성과 (Architecture Highlights)
 
-* **`users` Table:** 서비스에 접근한 사용자(닉네임) 정보 관리
-  * `id` (PK), `nickname` (Unique), `created_at`
-* **`fortunes` Table:** 사용자가 저장한 사주 결과 및 메타데이터 관리
-  * `id` (PK), `nickname` (Index), `person_name`, `role`, `birthday`, `fortune_text` (LongText), `pod`, `saved_at`
+단순한 기능 구현을 넘어, 인프라 아키텍트 관점에서 시스템의 신뢰성과 성능을 극대화했습니다.
+
+1. **완전한 GitOps 파이프라인 (CI/CD)**
+   * `git push` 한 번으로 GitLab CI가 ARM64 호환 도커 이미지를 자체 빌드합니다. 
+   * ArgoCD가 변경 사항을 감지해 K8s 클러스터에 사람의 개입 없이 무중단으로 자동 배포합니다.
+2. **애플리케이션 레벨 성능 최적화 (TPS 95% 향상)**
+   * k6를 활용한 500명 동시 접속 부하 테스트 중 DB 커넥션 경합으로 인한 병목을 발견했습니다.
+   * DBUtils 커넥션 풀을 도입하여 인프라 확장 없이 **TPS를 95% 향상(932 → 1,817 req/s)**시키고, p90 응답시간을 절반(802ms → 403ms)으로 단축했습니다.
+3. **온프레미스 고가용성 (HA) 및 자동 복구**
+   * 클라우드 환경 없이 MetalLB를 도입하여 노드 장애 시에도 유지되는 단일 진입점(VIP)을 구축했습니다.
+   * 노드 셧다운 테스트 결과, 파드 장애 시 K8s의 Self-Healing 메커니즘을 통해 약 10초 내에 트래픽 중단 없이 서비스가 자동 복구됨을 검증했습니다.
 
 ---
 
-## 5. 상세 문서 (Wiki)
-아키텍처 토폴로지, 인프라 프로비저닝, DB 볼륨 마운트 그리고 CI/CD 파이프라인의 상세한 구축 과정은 본 리포지토리의 [Wiki] 탭에서 확인할 수 있습니다.
+## 🏗️ 4. 시스템 스펙 및 API 명세
 
-* [🏠 Home (프로젝트 개요)](https://github.com/msp-architect-2026/kim-taeseung/wiki)
-* [🛠️ Tech Stack & Decisions (기술 스택 및 선정 배경)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Tech-Stack-and-Decisions)
-* [🏛️ Architecture(아키텍처 설계 및 트래픽 흐름)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Architecture)
-* [🖥️ Infrastructure Setup(클러스터 구성 및 환경 명세)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Infrastructure-Setup)
-* [🚀 CI/CD Pipeline(배포 자동화 및 GitOps)](https://github.com/msp-architect-2026/kim-taeseung/wiki/CI-CD-Pipeline)
-* [🔥 Troubleshooting(문제 해결 및 회고)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Troubleshooting)
-* [📈 Scenario & Testing (시스템 시나리오 및 검증)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Scenario-and-Testing)
-* [⚡ Performance Improvement (성능 개선 기록)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Performance-Improvement)
-* [📝 Meetings & Feedback (회의록 및 피드백)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Meetings-and-Feedback)
+마이크로서비스(MSA) 구조에 맞게 설계된 백엔드 API 명세와 데이터베이스 스키마입니다. 상세 내용은 아래를 펼쳐서 확인하실 수 있습니다.
+
+<details>
+<summary><b>📂 API Specification 펼쳐보기</b></summary>
+<br>
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| **GET** | `/api/health` | 파드 헬스체크 (Liveness/Readiness) |
+| **GET** | `/api/status` | 파드 CPU 메트릭 및 무드등 상태 조회 |
+| **POST** | `/api/fortune` | 사용자 정보 기반 AI 운세 생성 |
+| **POST** | `/api/login` | 닉네임 확인 및 신규 사용자 DB 등록 |
+| **POST** | `/api/fortunes/save` | 운세 결과를 MySQL 보관함에 영구 저장 |
+| **GET** | `/api/fortunes/<nickname>` | 특정 사용자의 전체 운세 보관함 리스트 조회 |
+| **DELETE**| `/api/fortunes/<nickname>/<id>`| 보관함 내 특정 운세 내역 단건 삭제 |
+
+</details>
+
+<details>
+<summary><b>💾 Database Schema (MySQL) 펼쳐보기</b></summary>
+<br>
+
+K8s PV/PVC와 연동되어 데이터 영속성을 보장하는 핵심 테이블 구조입니다. (앱 기동 시 백엔드 컨테이너가 10회 재시도 로직을 통해 자동 초기화 및 테이블 생성을 수행합니다.)
+
+* **`users` Table:** 서비스에 접근한 사용자 정보 관리 (닉네임 기반 고유 세션)
+* **`fortunes` Table:** 사용자가 저장한 사주 결과 및 메타데이터 영구 보관 (`person_name`, `role`, `fortune_text` 등)
+
+</details>
+
+<br>
+
+---
+
+## 📚 5. 상세 문서 및 회고 (Wiki)
+
+아키텍처 도면부터 부하 테스트 리포트까지, 프로젝트의 모든 의사결정과 엔지니어링 기록은 아래 Wiki에 상세히 문서화되어 있습니다. 관심 있는 주제의 링크를 클릭하여 상세한 내용을 확인해 보세요.
+
+* **[🏠 Home (프로젝트 개요)](https://github.com/msp-architect-2026/kim-taeseung/wiki)**
+  * Kube-Fortune 프로젝트의 전반적인 기획 의도와 6가지 핵심 목표, 전체 화면 구성 요소(Progressive Disclosure UI 등)를 한눈에 파악할 수 있습니다.
+
+* **[🛠️ Tech Stack & Decisions (기술 선정 배경)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Tech-Stack-and-Decisions)**
+  * 왜 클릭 몇 번으로 가능한 관리형 클라우드를 두고 온프레미스 `kubeadm`을 선택했는지, 무거운 Docker Engine 대신 `containerd`를 도입한 이유가 무엇인지 등 각 기술 스택의 트레이드오프(Trade-offs)와 엄밀한 선정 배경을 다룹니다.
+
+* **[🏛️ Architecture (아키텍처 설계 및 트래픽 흐름)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Architecture)**
+  * 시스템 토폴로지 도면을 바탕으로 Inbound/Outbound 네트워크 트래픽 흐름, RESTful API 명세, 동적으로 초기화되는 DB 스키마, 그리고 상태(Stateful) 관리 전략의 진화 과정을 설명합니다.
+
+* **[🖥️ Infrastructure Setup (클러스터 구성 및 환경 명세)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Infrastructure-Setup)**
+  * 클라우드 의존 없이 UTM 가상화(ARM64) 환경에서 마스터/워커 노드를 직접 분리 구축한 과정과 containerd 런타임, Flannel CNI 등 온프레미스 K8s 클러스터를 바닥부터 프로비저닝한 상세 명세가 담겨 있습니다.
+
+* **[🚀 CI/CD Pipeline (GitLab & ArgoCD 파이프라인)](https://github.com/msp-architect-2026/kim-taeseung/wiki/CI-CD-Pipeline)**
+  * ARM64 호환 이미지를 구워내는 GitLab Runner(DinD) 기반의 CI 자동화와, Kubeconfig 노출 위험을 원천 차단한 ArgoCD의 Pull 방식 GitOps 무중단 배포(CD) 파이프라인 구조를 설명합니다.
+  
+* **[📈 Scenario & Testing (HA 시나리오 검증 및 k6 부하 테스트)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Scenario-and-Testing)**
+  * 동시 접속자 500명을 가정한 k6 부하 테스트(HPA 자동 스케일 아웃 검증) 결과와, 파드 삭제부터 워커 노드 셧다운에 이르는 4단계의 K8s 고가용성(HA) 장애 복구 시나리오를 정량적으로 검증한 리포트입니다.
+  
+* **[⚡ Performance Improvement (DB 커넥션 풀 등 성능 개선 기록)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Performance-Improvement)**
+  * 부하 테스트 중 발견된 애플리케이션 병목을 DB 커넥션 풀 도입으로 해결하여 TPS를 95% 향상시킨 사례, 그리고 StatefulSet의 재배치 지연 현상을 자동화하여 복구 시간을 단축한 성능 최적화 과정을 기록했습니다.
+  
+* **[🔥 Troubleshooting (문제 해결 및 회고)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Troubleshooting)**
+  * AI 프롬프트 누수로 인한 UI 렌더링 실패, 온프레미스 DinD 환경의 BuildKit 인증 장애, 노드 재부팅 시 발생한 CNI(Flannel) 데드락 및 연쇄 통신 장애 등 인프라 구축 과정에서 겪은 치열한 문제 해결(Troubleshooting) 과정을 아키텍트의 시선으로 풀어냈습니다.
+  
+* **[📝 Meetings & Feedback (멘토링 회의록)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Meetings-and-Feedback)**
+  * 주간 회의 및 멘토링을 통해 도출된 K8s 재해 복구(DR) 대비책, 부하 테스트 타겟 재조정 등 날카로운 피드백과 이를 실제 아키텍처에 반영하며 프로젝트를 고도화해 나간 성장 기록입니다.
