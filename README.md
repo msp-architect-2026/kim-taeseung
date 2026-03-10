@@ -77,40 +77,7 @@ Kube-Fortune은 표면적으로는 클러스터의 상태를 시각화하여 개
    * 노드 셧다운 테스트 결과, 파드 장애 시 K8s의 Self-Healing 메커니즘을 통해 약 10초 내에 트래픽 중단 없이 서비스가 자동 복구됨을 검증했습니다.
 
 ---
-
-## 🏗️ 4. 시스템 스펙 및 API 명세
-
-마이크로서비스(MSA) 구조에 맞게 설계된 백엔드 API 명세와 데이터베이스 스키마입니다. 상세 내용은 아래를 펼쳐서 확인하실 수 있습니다.
-
-<details>
-<summary><b>📂 API Specification 펼쳐보기</b></summary>
-<br>
-
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| **GET** | `/api/health` | 파드 헬스체크 (Liveness/Readiness) |
-| **GET** | `/api/status` | 파드 CPU 메트릭 및 무드등 상태 조회 |
-| **POST** | `/api/fortune` | 사용자 정보 기반 AI 운세 생성 |
-| **POST** | `/api/login` | 닉네임 확인 및 신규 사용자 DB 등록 |
-| **POST** | `/api/fortunes/save` | 운세 결과를 MySQL 보관함에 영구 저장 |
-| **GET** | `/api/fortunes/<nickname>` | 특정 사용자의 전체 운세 보관함 리스트 조회 |
-| **DELETE**| `/api/fortunes/<nickname>/<id>`| 보관함 내 특정 운세 내역 단건 삭제 |
-
-</details>
-
-<details>
-<summary><b>💾 Database Schema (MySQL) 펼쳐보기</b></summary>
-<br>
-
-K8s PV/PVC와 연동되어 데이터 영속성을 보장하는 핵심 테이블 구조입니다. (앱 기동 시 백엔드 컨테이너가 10회 재시도 로직을 통해 자동 초기화 및 테이블 생성을 수행합니다.)
-
-* **`users` Table:** 서비스에 접근한 사용자 정보 관리 (닉네임 기반 고유 세션)
-* **`fortunes` Table:** 사용자가 저장한 사주 결과 및 메타데이터 영구 보관 (`person_name`, `role`, `fortune_text` 등)
-
-</details>
-
----
-## 📚 5. 상세 문서 및 회고 (Wiki)
+## 📚 상세 문서 및 회고 (Wiki)
 
 아키텍처 도면부터 부하 테스트 리포트까지, 프로젝트의 모든 의사결정과 엔지니어링 기록은 아래 Wiki에 상세히 문서화되어 있습니다. 관심 있는 주제의 링크를 클릭하여 상세한 내용을 확인해 보세요.
 
