@@ -92,7 +92,7 @@ Kube-Fortune은 표면적으로는 클러스터의 상태를 시각화하여 개
 ### 1단계. 저장소 클론
 
 ```bash
-git clone https://github.com/kim-taeseung/kube-fortune.git
+git clone https://github.com/msp-architect-2026/kim-taeseung.git
 cd kube-fortune
 ```
 
