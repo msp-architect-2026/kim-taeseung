@@ -1,0 +1,22 @@
+# 환경변수 (절대 커밋 금지!)
+.env
+.env.*
+!.env.example
+
+# K8s Secret 파일 (base64 키가 들어간 경우)
+k8s/secret.yaml
+k8s/**/secret.yaml
+
+# Node
+node_modules/
+frontend/dist/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# macOS
+.DS_Store
+
+Ansible Playbook/hosts.ini

@@ -1,0 +1,52 @@
+# =============================================================
+# ingress.yaml  ─  Ingress-Nginx 라우팅 규칙
+#
+# 단일 도메인으로 들어오는 트래픽을 경로 기준으로 분기:
+#   /api/*  →  fortune-backend-svc:5000  (Flask API)
+#   /       →  fortune-frontend-svc:80   (React 정적파일)
+#
+# [도메인 설정]
+# host: 필드를 실제 사용할 도메인 또는 /etc/hosts에 등록한
+# 로컬 도메인으로 변경하세요.
+#
+# 로컬 kubeadm 테스트 시:
+#   1. kubectl get svc -n ingress-nginx  → EXTERNAL-IP 확인
+#   2. Mac의 /etc/hosts에 추가:
+#      <EXTERNAL-IP>  kube-fortune.local
+#   3. 브라우저에서 http://kube-fortune.local 접속
+# =============================================================
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fortune-ingress
+  namespace: kube-fortune
+  labels:
+    app: kube-fortune
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout:  "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout:  "60"
+    nginx.ingress.kubernetes.io/proxy-body-size:     "1m"
+spec:
+  ingressClassName: nginx    # Ingress-Nginx 컨트롤러 사용
+
+  rules:
+    - host: kube-fortune.local    # ← 실제 도메인으로 변경
+      http:
+        paths:
+          # /api/* → Backend Service
+          - path:     /api
+            pathType: Prefix
+            backend:
+              service:
+                name: fortune-backend-svc
+                port:
+                  number: 5000
+
+          # / → Frontend Service
+          - path:     /
+            pathType: Prefix
+            backend:
+              service:
+                name: fortune-frontend-svc
+                port:
+                  number: 80

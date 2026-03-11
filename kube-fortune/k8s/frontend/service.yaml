@@ -1,0 +1,21 @@
+# =============================================================
+# service.yaml  ─  Frontend ClusterIP Service
+#
+# Ingress에서 / 트래픽을 이 Service로 보냅니다.
+# =============================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: fortune-frontend-svc
+  namespace: kube-fortune
+  labels:
+    app: fortune-frontend
+spec:
+  type: ClusterIP
+  selector:
+    app: fortune-frontend
+  ports:
+    - name:       http
+      port:       80
+      targetPort: 80
+      protocol:   TCP

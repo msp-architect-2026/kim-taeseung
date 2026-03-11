@@ -1,0 +1,20 @@
+# =============================================================
+# clusterrolebinding.yaml  ─  ServiceAccount ↔ ClusterRole 연결
+#
+# fortune-backend-sa (ServiceAccount)에
+# fortune-metrics-reader (ClusterRole) 권한을 부여합니다.
+# =============================================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: fortune-metrics-reader-binding
+  labels:
+    app: fortune-backend
+subjects:
+  - kind:      ServiceAccount
+    name:      fortune-backend-sa
+    namespace: kube-fortune
+roleRef:
+  kind:     ClusterRole
+  name:     fortune-metrics-reader
+  apiGroup: rbac.authorization.k8s.io

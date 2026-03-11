@@ -1,0 +1,150 @@
+# ════════════════════════════════════════════════════════════════
+#  Kube-Fortune  |  GitLab CI/CD Pipeline
+#
+#  Stages
+#  ① build-and-push  : arm64 이미지 빌드 → GitLab Container Registry 푸시
+#  ② update-manifest : k8s deployment.yaml 이미지 태그 교체 → main 브랜치 커밋
+#
+#  Required GitLab CI/CD Variables (Settings → CI/CD → Variables)
+#  ┌─────────────────────────────┬──────────────────────────────────────────┐
+#  │ 변수명                       │ 설명                                     │
+#  ├─────────────────────────────┼──────────────────────────────────────────┤
+#  │ CI_REGISTRY_USER            │ GitLab이 자동 주입 (별도 설정 불필요)     │
+#  │ CI_REGISTRY_PASSWORD        │ GitLab이 자동 주입 (별도 설정 불필요)     │
+#  │ CI_REGISTRY                 │ GitLab이 자동 주입 (별도 설정 불필요)     │
+#  │ CI_REGISTRY_IMAGE           │ GitLab이 자동 주입 (별도 설정 불필요)     │
+#  │ GITLAB_PUSH_TOKEN           │ ★ 직접 등록 필요                         │
+#  └─────────────────────────────┴──────────────────────────────────────────┘
+# ════════════════════════════════════════════════════════════════
+
+stages:
+  - build-and-push
+  - update-manifest
+
+variables:
+  DOCKER_BUILDKIT: "1"
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: "tcp://docker:2375"
+  BACKEND_IMAGE: "$CI_REGISTRY_IMAGE/backend"
+  FRONTEND_IMAGE: "$CI_REGISTRY_IMAGE/frontend"
+  TARGET_PLATFORM: "linux/arm64"
+  BACKEND_MANIFEST: "k8s/backend/deployment.yaml"
+  FRONTEND_MANIFEST: "k8s/frontend/deployment.yaml"
+  GIT_USER_NAME: "gitlab-ci-bot"
+  GIT_USER_EMAIL: "ci-bot@kube-fortune.local"
+
+# ════════════════════════════════════════════════════════════════
+# STAGE 1 — build-and-push
+# ════════════════════════════════════════════════════════════════
+
+.build_template: &build_template
+  stage: build-and-push
+  image: docker:26-cli
+  services:
+    - name: docker:26-dind
+      alias: docker
+      command:
+        - "--tls=false"
+        - "--insecure-registry=192.168.64.20:5050"
+  before_script:
+    # 1) GitLab Container Registry 로그인
+    - echo "$CI_REGISTRY_PASSWORD" | docker login "$CI_REGISTRY" --username "$CI_REGISTRY_USER" --password-stdin
+    # 2) buildkitd.toml 생성 — HTTP 레지스트리 허용
+    - |
+      printf '%s\n' \
+        '[registry."192.168.64.20:5050"]' \
+        '  http = true' \
+        '  insecure = true' \
+        > /tmp/buildkitd.toml
+    # 3) 기존 빌더 제거 후 재생성 (--config 항상 반영되도록)
+    - docker buildx rm kube-fortune-builder 2>/dev/null || true
+    - |
+      docker buildx create \
+        --name kube-fortune-builder \
+        --driver docker-container \
+        --config /tmp/buildkitd.toml \
+        --use --bootstrap
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+
+# ── Backend 이미지 빌드 & 푸시 ─────────────────────────
+build-backend:
+  <<: *build_template
+  script:
+    - |
+      docker buildx build \
+        --platform "$TARGET_PLATFORM" \
+        --file backend/Dockerfile \
+        --tag "$BACKEND_IMAGE:$CI_COMMIT_SHORT_SHA" \
+        --tag "$BACKEND_IMAGE:latest" \
+        --cache-from "$BACKEND_IMAGE:latest" \
+        --build-arg BUILDKIT_INLINE_CACHE=1 \
+        --push \
+        backend/
+    - echo "✅ Backend pushed → $BACKEND_IMAGE:$CI_COMMIT_SHORT_SHA"
+
+# ── Frontend 이미지 빌드 & 푸시 ────────────────────────
+build-frontend:
+  <<: *build_template
+  script:
+    - |
+      docker buildx build \
+        --platform "$TARGET_PLATFORM" \
+        --file frontend/Dockerfile \
+        --tag "$FRONTEND_IMAGE:$CI_COMMIT_SHORT_SHA" \
+        --tag "$FRONTEND_IMAGE:latest" \
+        --cache-from "$FRONTEND_IMAGE:latest" \
+        --build-arg BUILDKIT_INLINE_CACHE=1 \
+        --push \
+        frontend/
+    - echo "✅ Frontend pushed → $FRONTEND_IMAGE:$CI_COMMIT_SHORT_SHA"
+
+# ════════════════════════════════════════════════════════════════
+# STAGE 2 — update-manifest (GitOps)
+# ════════════════════════════════════════════════════════════════
+update-manifest:
+  stage: update-manifest
+  image: alpine:3.19
+  before_script:
+    - apk add --no-cache git sed
+    - git config --global user.name "$GIT_USER_NAME"
+    - git config --global user.email "$GIT_USER_EMAIL"
+    - |
+      git remote set-url origin \
+        "http://gitlab-ci-bot:${GITLAB_PUSH_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+  script:
+    - git config pull.rebase true
+    - git fetch origin main
+    - git checkout main
+    - git pull origin main
+    # Backend 매니페스트 이미지 태그 교체
+    - |
+      sed -i \
+        "s|image: $BACKEND_IMAGE:.*|image: $BACKEND_IMAGE:$CI_COMMIT_SHORT_SHA|g" \
+        "$BACKEND_MANIFEST"
+    - echo "✅ Backend manifest updated"
+    - grep "image:" "$BACKEND_MANIFEST"
+    # Frontend 매니페스트 이미지 태그 교체
+    - |
+      sed -i \
+        "s|image: $FRONTEND_IMAGE:.*|image: $FRONTEND_IMAGE:$CI_COMMIT_SHORT_SHA|g" \
+        "$FRONTEND_MANIFEST"
+    - echo "✅ Frontend manifest updated"
+    - grep "image:" "$FRONTEND_MANIFEST"
+    # 변경사항 커밋 & 푸시
+    - |
+      if git diff --quiet; then
+        echo "ℹ️  No manifest changes. Skipping commit."
+      else
+        git add "$BACKEND_MANIFEST" "$FRONTEND_MANIFEST"
+        git commit -m "ci: update image tags to $CI_COMMIT_SHORT_SHA [skip ci]"
+        git push origin main
+        echo "🚀 Manifest pushed → ArgoCD will sync"
+      fi
+  needs:
+    - job: build-backend
+    - job: build-frontend
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_PIPELINE_SOURCE == "web"'

@@ -1,0 +1,53 @@
+# =============================================================
+# deployment.yaml  ─  Frontend (React + Nginx) 배포
+#
+# [이미지 교체]
+# image: 필드를 본인의 실제 이미지 경로로 변경하세요.
+# =============================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fortune-frontend
+  namespace: kube-fortune
+  labels:
+    app: fortune-frontend
+spec:
+  replicas: 2           # HA 테스트 및 로드밸런싱 증명을 위해 2개 이상 설정
+  selector:
+    matchLabels:
+      app: fortune-frontend
+  template:
+    metadata:
+      labels:
+        app: fortune-frontend
+    spec:
+      imagePullSecrets:
+        - name: gitlab-registry-secret
+      containers:
+        - name: frontend
+          image: 192.168.64.20:5050/root/kube-fortune/frontend:12acd060
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+
+          resources:
+            requests:
+              cpu:    "50m"
+              memory: "64Mi"
+            limits:
+              cpu:    "200m"
+              memory: "128Mi"
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds:       20
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds:       10

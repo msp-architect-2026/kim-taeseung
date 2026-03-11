@@ -1,0 +1,49 @@
+# =============================================================
+# hpa.yaml  ─  Backend HorizontalPodAutoscaler
+#
+# CPU 사용률이 60%를 넘으면 파드를 자동으로 늘립니다.
+# 무드등(🔥) 상태를 트리거하기 위한 부하 테스트 후
+# 파드가 늘어나는 모습을 포트폴리오 시연에 활용하세요.
+#
+# [시연 팁]
+#   # 부하 테스트로 HPA 동작 확인
+#   kubectl run -it --rm load-test --image=busybox --restart=Never -- \
+#     sh -c "while true; do wget -q -O- http://fortune-backend-svc:5000/api/health; done"
+#
+#   # HPA 상태 모니터링
+#   kubectl get hpa -n kube-fortune -w
+# =============================================================
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: fortune-backend-hpa
+  namespace: kube-fortune
+  labels:
+    app: fortune-backend
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind:       Deployment
+    name:       fortune-backend
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type:               Utilization
+          averageUtilization: 60   # CPU 60% 초과 시 스케일 아웃
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 30    # 빠르게 스케일 업
+      policies:
+        - type:          Pods
+          value:         2
+          periodSeconds: 30
+    scaleDown:
+      stabilizationWindowSeconds: 120   # 스케일 다운은 천천히
+      policies:
+        - type:          Pods
+          value:         1
+          periodSeconds: 60

@@ -1,0 +1,96 @@
+# =============================================================
+# deployment.yaml  ─  Backend (Flask) 배포
+#
+# [이미지 교체]
+# image: 필드를 본인의 실제 이미지 경로로 변경하세요.
+# 예) your-dockerhub-id/kube-fortune-backend:latest
+#     또는 로컬 빌드 후 kubeadm 노드에 직접 로드:
+#     docker save kube-fortune-backend | ssh node01 docker load
+# =============================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fortune-backend
+  namespace: kube-fortune
+  labels:
+    app: fortune-backend
+spec:
+  replicas: 2           # LB 시연을 위해 2개 이상 권장
+  selector:
+    matchLabels:
+      app: fortune-backend
+  template:
+    metadata:
+      labels:
+        app: fortune-backend
+    spec:
+      serviceAccountName: fortune-backend-sa   # Metrics API 접근용 SA
+
+      imagePullSecrets:
+        - name: gitlab-registry-secret
+      containers:
+        - name: backend
+          image: 192.168.64.20:5050/root/kube-fortune/backend:12acd060
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+
+          env:
+            # Gemini API Key (Secret에서 주입)
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: gemini-secret
+                  key:  GEMINI_API_KEY
+
+            # MySQL 연결 설정
+            - name: DB_HOST
+              value: "mysql-service"
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_USER
+              value: "root"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: DB_NAME
+              value: "kubefortune"
+
+            # 파드 자신의 이름 (LB 배지용)
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+
+            # 파드가 속한 네임스페이스 (Metrics API 쿼리용)
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+
+          resources:
+            requests:
+              cpu:    "100m"
+              memory: "128Mi"
+            limits:
+              cpu:    "600m"
+              memory: "256Mi"
+
+          # 헬스체크
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds:       20
+            failureThreshold:    3
+
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds:       10
+            failureThreshold:    3
