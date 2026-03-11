@@ -188,7 +188,7 @@ docker compose -f docker-compose.local.yml down -v
   * 동시 접속자 500명을 가정한 k6 부하 테스트(HPA 자동 스케일 아웃 검증) 결과와, 파드 삭제부터 워커 노드 셧다운에 이르는 4단계의 K8s 고가용성(HA) 장애 복구 시나리오를 정량적으로 검증한 리포트입니다.
   
 * **[⚡ Performance Improvement (DB 커넥션 풀 등 성능 개선 기록)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Performance-Improvement)**
-  * 부하 테스트 중 발견된 애플리케이션 병목을 DB 커넥션 풀 도입으로 해결하여 TPS를 95% 향상시킨 사례, 그리고 StatefulSet의 재배치 지연 현상을 자동화하여 복구 시간을 단축한 성능 최적화 과정을 기록했습니다.
+  * 부하 테스트 중 발견된 애플리케이션 병목을 DB 커넥션 풀 도입으로 해결하여 TPS를 95% 향상시킨 사례, 그리고 StatefulSet의 재배치 지연 현상을 자동화하여 복구 시간을 단축한 성능 최적화 과정을 기록하고, AI 프롬프트 고도화 및 UI/UX 개편을 통해 서비스의 완성도를 높였습니다.
   
 * **[🔥 Troubleshooting (문제 해결 및 회고)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Troubleshooting)**
   * AI 프롬프트 누수로 인한 UI 렌더링 실패, 온프레미스 DinD 환경의 BuildKit 인증 장애, 노드 재부팅 시 발생한 CNI(Flannel) 데드락 및 연쇄 통신 장애 등 인프라 구축 과정에서 겪은 치열한 문제 해결(Troubleshooting) 과정을 아키텍트의 시선으로 풀어냈습니다.
