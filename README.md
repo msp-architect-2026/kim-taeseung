@@ -77,6 +77,85 @@ Kube-Fortune은 표면적으로는 클러스터의 상태를 시각화하여 개
    * 노드 셧다운 테스트 결과, 파드 장애 시 K8s의 Self-Healing 메커니즘을 통해 약 10초 내에 트래픽 중단 없이 서비스가 자동 복구됨을 검증했습니다.
 
 ---
+## 🎮 Quick Start (Local Demo)
+
+> K8s 클러스터 없이 Docker Compose만으로 Kube-Fortune을 로컬에서 체험할 수 있습니다.
+
+<details>
+<summary>📖 설치 및 실행 가이드 펼치기</summary>
+
+### 사전 준비
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) 설치 (Mac / Windows 공통)
+- [Google Gemini API Key](https://aistudio.google.com/) 발급
+
+### 1단계. 저장소 클론
+
+```bash
+git clone https://github.com/kim-taeseung/kube-fortune.git
+cd kube-fortune
+```
+
+### 2단계. 환경변수 설정
+
+> ⚠️ **이 단계를 건너뛰면 운세 생성 기능이 동작하지 않습니다.**
+
+**Mac / Linux**
+```bash
+cp .env.example .env
+```
+
+**Windows**
+```bash
+copy .env.example .env
+```
+
+이후 `.env` 파일을 열어 발급받은 Gemini API Key를 입력합니다.
+
+```
+GEMINI_API_KEY=여기에_실제_API_Key_입력
+```
+
+### 3단계. 실행
+
+```bash
+docker compose -f docker-compose.local.yml up --build
+```
+
+> MySQL 초기화가 완료될 때까지 약 30~60초 소요됩니다.
+
+### 4단계. 브라우저 접속
+
+```
+http://localhost:5173
+```
+
+### 종료
+
+```bash
+docker compose -f docker-compose.local.yml down
+```
+
+데이터(MySQL 볼륨)까지 완전히 삭제하려면:
+
+```bash
+docker compose -f docker-compose.local.yml down -v
+```
+
+### 포트 사용 현황
+
+| 서비스 | 포트 |
+| :--- | :--- |
+| Frontend (React) | 5173 |
+| Backend (Flask) | 5001 |
+| MySQL | 3306 |
+
+> 위 포트가 이미 사용 중이라면 `docker-compose.local.yml`에서 포트 번호를 변경하세요.
+
+</details>
+
+---
+
 ## 📚 상세 문서 및 회고 (Wiki)
 
 아키텍처 도면부터 부하 테스트 리포트까지, 프로젝트의 모든 의사결정과 엔지니어링 기록은 아래 Wiki에 상세히 문서화되어 있습니다. 관심 있는 주제의 링크를 클릭하여 상세한 내용을 확인해 보세요.
