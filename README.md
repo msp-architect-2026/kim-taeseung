@@ -196,6 +196,6 @@ docker compose -f docker-compose.local.yml down -v
 * **[📝 Meetings & Feedback (멘토링 회의록)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Meetings-and-Feedback)**
   * 주간 회의 및 멘토링을 통해 도출된 K8s 재해 복구(DR) 대비책, 부하 테스트 타겟 재조정 등 날카로운 피드백과 이를 실제 아키텍처에 반영하며 프로젝트를 고도화해 나간 성장 기록입니다.
 
-* **[🌟 Retrospective & Vision (최종 프로젝트 회고 및 향후 비전)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Retrospective-and-Vison)**
+* **[🌟 Retrospective & Vision (최종 프로젝트 회고 및 향후 비전)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Retrospective-and-Vision)**
   * 온프레미스 인프라 환경에서 부하 테스트와 K8s 장애 복구를 직접 부딪히며 겪었던 치열한 엔지니어링 회고가 담겨 있습니다.
   * **향후 비전:** 기술적인 완성을 넘어, 이 서비스가 실제로 어떻게 쓰일 수 있을지 방향성을 고민했습니다.
