@@ -12,35 +12,41 @@
 
 </div>
 
-<br>
-
 ## 🛠️ Tech Stack
 
 <div align="center">
-  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"> 
-  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> 
-  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white"> 
-  <br>
-  
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"> 
-  <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white"> 
-  <img src="https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white"> 
-  <img src="https://img.shields.io/badge/Google_Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white"> 
-  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
-  <img src="https://img.shields.io/badge/DBUtils-4479A1?style=for-the-badge&logo=python&logoColor=white">
-  <br>
-  
-  <img src="https://img.shields.io/badge/Ubuntu_22.04-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"> 
-  <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white"> 
-  <img src="https://img.shields.io/badge/MetalLB-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white"> 
-  <img src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=helm&logoColor=white"> 
-  <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=white"> 
-  <br>
-  
-  <img src="https://img.shields.io/badge/GitLab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white"> 
-  <img src="https://img.shields.io/badge/ArgoCD-EF7B4D?style=for-the-badge&logo=argo&logoColor=white"> 
-  <img src="https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white"> 
-  <img src="https://img.shields.io/badge/k6-7D64FF?style=for-the-badge&logo=k6&logoColor=white">
+
+**⚛️ Frontend**<br>
+<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"> 
+<img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> 
+<img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white"> 
+<br><br>
+
+**🐍 Backend & AI**<br>
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"> 
+<img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white"> 
+<img src="https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white"> 
+<img src="https://img.shields.io/badge/Google_Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white"> 
+<br><br>
+
+**💾 Database & Optimization**<br>
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
+<img src="https://img.shields.io/badge/DBUtils-4479A1?style=for-the-badge&logo=python&logoColor=white">
+<br><br>
+
+**🖥️ Infrastructure & Monitoring**<br>
+<img src="https://img.shields.io/badge/Ubuntu_22.04-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"> 
+<img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white"> 
+<img src="https://img.shields.io/badge/MetalLB-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white"> 
+<img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=white"> 
+<br><br>
+
+**🚀 CI/CD & Testing**<br>
+<img src="https://img.shields.io/badge/GitLab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white"> 
+<img src="https://img.shields.io/badge/ArgoCD-EF7B4D?style=for-the-badge&logo=argo&logoColor=white"> 
+<img src="https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white"> 
+<img src="https://img.shields.io/badge/k6-7D64FF?style=for-the-badge&logo=k6&logoColor=white">
+
 </div>
 
 <br>
@@ -92,7 +98,7 @@ Kube-Fortune은 표면적으로는 클러스터의 상태를 시각화하여 개
 ### 1단계. 저장소 클론
 
 ```bash
-git clone https://github.com/kim-taeseung/kube-fortune.git
+git clone https://github.com/msp-architect-2026/kim-taeseung.git
 cd kube-fortune
 ```
 
@@ -182,10 +188,14 @@ docker compose -f docker-compose.local.yml down -v
   * 동시 접속자 500명을 가정한 k6 부하 테스트(HPA 자동 스케일 아웃 검증) 결과와, 파드 삭제부터 워커 노드 셧다운에 이르는 4단계의 K8s 고가용성(HA) 장애 복구 시나리오를 정량적으로 검증한 리포트입니다.
   
 * **[⚡ Performance Improvement (DB 커넥션 풀 등 성능 개선 기록)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Performance-Improvement)**
-  * 부하 테스트 중 발견된 애플리케이션 병목을 DB 커넥션 풀 도입으로 해결하여 TPS를 95% 향상시킨 사례, 그리고 StatefulSet의 재배치 지연 현상을 자동화하여 복구 시간을 단축한 성능 최적화 과정을 기록했습니다.
+  * 부하 테스트 중 발견된 애플리케이션 병목을 DB 커넥션 풀 도입으로 해결하여 TPS를 95% 향상시킨 사례, 그리고 StatefulSet의 재배치 지연 현상을 자동화하여 복구 시간을 단축한 성능 최적화 과정을 기록하고, AI 프롬프트 고도화 및 UI/UX 개편을 통해 서비스의 완성도를 높였습니다.
   
 * **[🔥 Troubleshooting (문제 해결 및 회고)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Troubleshooting)**
   * AI 프롬프트 누수로 인한 UI 렌더링 실패, 온프레미스 DinD 환경의 BuildKit 인증 장애, 노드 재부팅 시 발생한 CNI(Flannel) 데드락 및 연쇄 통신 장애 등 인프라 구축 과정에서 겪은 치열한 문제 해결(Troubleshooting) 과정을 아키텍트의 시선으로 풀어냈습니다.
   
 * **[📝 Meetings & Feedback (멘토링 회의록)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Meetings-and-Feedback)**
   * 주간 회의 및 멘토링을 통해 도출된 K8s 재해 복구(DR) 대비책, 부하 테스트 타겟 재조정 등 날카로운 피드백과 이를 실제 아키텍처에 반영하며 프로젝트를 고도화해 나간 성장 기록입니다.
+
+* **[🌟 Retrospective & Vision (최종 프로젝트 회고 및 향후 비전)](https://github.com/msp-architect-2026/kim-taeseung/wiki/Retrospective-and-Vision)**
+  * 온프레미스 인프라 환경에서 부하 테스트와 K8s 장애 복구를 직접 부딪히며 겪었던 치열한 엔지니어링 회고가 담겨 있습니다.
+  * **향후 비전:** 기술적인 완성을 넘어, 이 서비스가 실제로 어떻게 쓰일 수 있을지 방향성을 고민했습니다.
