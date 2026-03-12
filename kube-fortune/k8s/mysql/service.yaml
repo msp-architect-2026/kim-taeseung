@@ -1,0 +1,21 @@
+# =============================================================
+# k8s/mysql/service.yaml  ─  MySQL ClusterIP 서비스
+#
+# 백엔드 앱이 "mysql-service:3306" 으로 접근
+# (app.py의 DB_HOST 기본값과 일치)
+# =============================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  namespace: kube-fortune
+  labels:
+    app: mysql
+spec:
+  selector:
+    app: mysql
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: 3306
+  type: ClusterIP

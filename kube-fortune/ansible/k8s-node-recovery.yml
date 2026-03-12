@@ -1,0 +1,108 @@
+---
+- name: 🚀 Kube-Fortune Node Auto-Recovery & Stabilization
+  hosts: k8s_nodes
+  become: yes
+  tasks:
+    - name: 1. Permanently disable swap in /etc/fstab
+      replace:
+        path: /etc/fstab
+        regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+        replace: '# \1'
+
+    - name: 2. Disable swap immediately
+      command: swapoff -a
+      ignore_errors: yes
+
+    - name: 3. Remove circular dependency (Flannel wait deadlock)
+      file:
+        path: /etc/systemd/system/kubelet.service.d/10-flannel-wait.conf
+        state: absent
+      notify: restart kubelet
+
+    - name: 4. Create CNI cleanup script for boot
+      copy:
+        dest: /usr/local/bin/cni-cleanup.sh
+        mode: '0755'
+        content: |
+          #!/bin/bash
+          # 부팅 시 꼬여있는 네트워크 인터페이스와 캐시를 초기화합니다.
+          ip link set cni0 down || true
+          ip link delete cni0 || true
+          rm -rf /var/lib/cni/
+          exit 0
+
+    - name: 5. Create Systemd service for CNI cleanup on boot
+      copy:
+        dest: /etc/systemd/system/cni-cleanup.service
+        content: |
+          [Unit]
+          Description=Clean up CNI bridge before containerd/kubelet
+          Before=containerd.service kubelet.service
+          After=network.target
+          [Service]
+          Type=oneshot
+          ExecStart=/usr/local/bin/cni-cleanup.sh
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: 6. Enable CNI cleanup service
+      systemd:
+        name: cni-cleanup.service
+        enabled: yes
+        daemon_reload: yes
+
+    - name: 7. Restart CoreDNS to apply new CNI network (Live recovery)
+      command: kubectl rollout restart deployment coredns -n kube-system
+      delegate_to: 192.168.64.10
+      run_once: true
+      become: no
+      ignore_errors: yes
+      environment:
+        KUBECONFIG: /home/ubuntu/.kube/config
+
+    - name: 8. Restart Kube-proxy to rebuild iptables routing (Live recovery)
+      command: kubectl rollout restart daemonset kube-proxy -n kube-system
+      delegate_to: 192.168.64.10
+      run_once: true
+      become: no
+      ignore_errors: yes
+      environment:
+        KUBECONFIG: /home/ubuntu/.kube/config
+
+    - name: 8.5. Wait until all nodes are Ready before restarting ArgoCD
+      command: kubectl wait --for=condition=Ready nodes --all --timeout=120s
+      delegate_to: 192.168.64.10
+      run_once: true
+      become: no
+      ignore_errors: yes
+      environment:
+        KUBECONFIG: /home/ubuntu/.kube/config
+
+    - name: 9. Force delete argocd-application-controller (fix StatefulSet stuck Terminating after node failure)
+      command: kubectl delete pod argocd-application-controller-0 -n argocd --force --grace-period=0
+      delegate_to: 192.168.64.10
+      run_once: true
+      become: no
+      ignore_errors: yes
+      environment:
+        KUBECONFIG: /home/ubuntu/.kube/config
+
+    - name: 10. Force delete argocd-repo-server (fix Unknown state after reboot)
+      shell: |
+        kubectl delete pod -n argocd \
+          -l app.kubernetes.io/name=argocd-repo-server \
+          --force --grace-period=0
+        sleep 15
+        kubectl get pod -n argocd -l app.kubernetes.io/name=argocd-repo-server
+      delegate_to: 192.168.64.10
+      run_once: true
+      become: no
+      ignore_errors: yes
+      environment:
+        KUBECONFIG: /home/ubuntu/.kube/config
+
+  handlers:
+    - name: restart kubelet
+      systemd:
+        name: kubelet
+        state: restarted

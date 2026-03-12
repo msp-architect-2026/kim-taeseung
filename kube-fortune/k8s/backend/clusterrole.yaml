@@ -1,0 +1,22 @@
+# =============================================================
+# clusterrole.yaml  ─  Metrics API 읽기 권한
+#
+# metrics.k8s.io/v1beta1 API 그룹의 pods 리소스를
+# get/list 할 수 있는 권한을 정의합니다.
+# (kubectl top pods 와 동일한 수준의 권한)
+# =============================================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: fortune-metrics-reader
+  labels:
+    app: fortune-backend
+rules:
+  # Metrics Server API 접근 권한
+  - apiGroups: ["metrics.k8s.io"]
+    resources: ["pods", "nodes"]
+    verbs:     ["get", "list"]
+  # 파드 정보 조회 권한 (현재 파드 이름 검증 등)
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs:     ["get", "list"]

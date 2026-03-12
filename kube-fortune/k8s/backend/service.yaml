@@ -1,0 +1,22 @@
+# =============================================================
+# service.yaml  ─  Backend ClusterIP Service
+#
+# Ingress에서 /api/* 트래픽을 이 Service로 보냅니다.
+# ClusterIP이므로 클러스터 내부에서만 접근 가능합니다.
+# =============================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: fortune-backend-svc
+  namespace: kube-fortune
+  labels:
+    app: fortune-backend
+spec:
+  type: ClusterIP
+  selector:
+    app: fortune-backend      # Deployment의 파드 레이블과 일치
+  ports:
+    - name:       http
+      port:       5000
+      targetPort: 5000
+      protocol:   TCP
