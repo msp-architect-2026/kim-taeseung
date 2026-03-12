@@ -25,7 +25,7 @@ spec:
         - name: gitlab-registry-secret
       containers:
         - name: frontend
-          image: 192.168.64.20:5050/root/kube-fortune/frontend:12acd060
+          image: 192.168.64.20:5050/root/kube-fortune/frontend:f6eaed29
           imagePullPolicy: Always
           ports:
             - containerPort: 80

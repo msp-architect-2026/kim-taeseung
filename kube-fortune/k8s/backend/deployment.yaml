@@ -30,7 +30,7 @@ spec:
         - name: gitlab-registry-secret
       containers:
         - name: backend
-          image: 192.168.64.20:5050/root/kube-fortune/backend:12acd060
+          image: 192.168.64.20:5050/root/kube-fortune/backend:f6eaed29
           imagePullPolicy: Always
           ports:
             - containerPort: 5000

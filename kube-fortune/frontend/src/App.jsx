@@ -10,9 +10,8 @@ const ROLES = [
   "데이터 엔지니어", "AI/ML", "QA", "기획자(개발자 마음 아픔)",
 ];
 
-const HOURS = Array.from({ length: 24 }, (_, i) =>
-  String(i).padStart(2, "0") + "시"
-);
+// HH:MM 형식 유효성 검사
+const isValidTime = (val) => /^([01]\d|2[0-3]):([0-5]\d)$/.test(val);
 
 // ════════════════════════════════════════════════════
 // 로그인 모달
@@ -25,9 +24,8 @@ function LoginModal({ onLogin, onGuest }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const trimmed = nick.trim();
-    if (!trimmed)           { setErr("닉네임을 입력해 주세요.");         return; }
-    if (trimmed.length > 16){ setErr("닉네임은 16자 이내로 입력해 주세요."); return; }
-
+    if (!trimmed)            { setErr("닉네임을 입력해 주세요.");         return; }
+    if (trimmed.length > 16) { setErr("닉네임은 16자 이내로 입력해 주세요."); return; }
     setLoading(true);
     setErr("");
     try {
@@ -95,18 +93,19 @@ function LoginModal({ onLogin, onGuest }) {
 export default function App() {
 
   // ── 유저 상태 ─────────────────────────────────────
-  // user: null | { nick: string }
   const [user,      setUser]      = useState(null);
   const [showLogin, setShowLogin] = useState(true);
-  const [loginMsg,  setLoginMsg]  = useState("");  // 환영 메시지 (잠깐 표시)
+  const [loginMsg,  setLoginMsg]  = useState("");
 
   const handleLogin = ({ nick, message }) => {
     setUser({ nick });
     setShowLogin(false);
-    setLoginMsg(message);
+    setLoginMsg(message ?? "");
     setTimeout(() => setLoginMsg(""), 3500);
   };
+
   const handleGuest  = () => setShowLogin(false);
+
   const handleLogout = () => {
     setUser(null);
     setShowLogin(true);
@@ -115,9 +114,9 @@ export default function App() {
   };
 
   // ── 보관함 상태 ───────────────────────────────────
-  const [savedList,     setSavedList]     = useState([]);
-  const [savedLoading,  setSavedLoading]  = useState(false);
-  const [savedError,    setSavedError]    = useState("");
+  const [savedList,    setSavedList]    = useState([]);
+  const [savedLoading, setSavedLoading] = useState(false);
+  const [savedError,   setSavedError]   = useState("");
 
   const fetchSaved = useCallback(async (nickname) => {
     if (!nickname) return;
@@ -146,7 +145,6 @@ export default function App() {
         has_time:   fortune.has_time,
         pod:        fortune.pod,
       });
-      // 보관함 탭이 열려있을 수도 있으니 목록 갱신
       await fetchSaved(user.nick);
       return { ok: true, msg: "보관함에 저장되었습니다! 💾" };
     } catch (e) {
@@ -172,7 +170,6 @@ export default function App() {
 
   const handleTabChange = (key) => {
     setActiveTab(key);
-    // 보관함 탭 클릭 시 최신 데이터 로드
     if (key === "saved" && user) {
       fetchSaved(user.nick);
     }
@@ -205,26 +202,41 @@ export default function App() {
     name: "", birthday: "", role: ROLES[0], birth_time: "",
   });
   const [timeUnknown,    setTimeUnknown]    = useState(false);
+  const [timeError,      setTimeError]      = useState("");
   const [fortune,        setFortune]        = useState(null);
   const [fortuneLoading, setFortuneLoading] = useState(false);
   const [error,          setError]          = useState("");
 
-  const handleChange = (e) =>
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+    if (name === "birth_time") {
+      if (value && !isValidTime(value)) {
+        setTimeError("00:00 ~ 23:59 형식으로 입력해 주세요.");
+      } else {
+        setTimeError("");
+      }
+    }
+  };
 
   const handleTimeUnknown = (e) => {
     setTimeUnknown(e.target.checked);
-    if (e.target.checked) setForm((prev) => ({ ...prev, birth_time: "" }));
+    if (e.target.checked) {
+      setForm((prev) => ({ ...prev, birth_time: "" }));
+      setTimeError("");
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.name.trim()) { setError("이름을 입력해 주세요."); return; }
     if (!form.birthday)    { setError("생년월일을 입력해 주세요."); return; }
+    if (!timeUnknown && form.birth_time && !isValidTime(form.birth_time)) {
+      setError("태어난 시간을 올바른 형식(HH:MM)으로 입력해 주세요."); return;
+    }
     setError("");
     setFortuneLoading(true);
     setFortune(null);
-
     const payload = {
       ...form,
       birth_time: timeUnknown ? null : form.birth_time || null,
@@ -363,21 +375,30 @@ export default function App() {
                       <span className="text-xs text-gray-500">시간을 모름</span>
                     </label>
                   </div>
-                  <select
-                    name="birth_time" value={form.birth_time}
-                    onChange={handleChange} disabled={timeUnknown}
+                  <input
+                    type="text"
+                    name="birth_time"
+                    value={form.birth_time}
+                    onChange={handleChange}
+                    disabled={timeUnknown}
+                    placeholder="예) 14:30"
+                    maxLength={5}
                     className={[
-                      "bg-gray-800 border rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:border-purple-500 transition",
-                      timeUnknown ? "border-gray-700 opacity-40 cursor-not-allowed" : "border-gray-600",
+                      "bg-gray-800 border rounded-lg px-4 py-2 text-gray-100 placeholder-gray-600 focus:outline-none transition",
+                      timeUnknown
+                        ? "border-gray-700 opacity-40 cursor-not-allowed"
+                        : timeError
+                          ? "border-red-500 focus:border-red-400"
+                          : "border-gray-600 focus:border-purple-500",
                     ].join(" ")}
-                  >
-                    <option value="">-- 태어난 시간 선택 --</option>
-                    {HOURS.map((h) => <option key={h} value={h}>{h}</option>)}
-                  </select>
+                  />
+                  {timeError && (
+                    <p className="text-xs text-red-400">⚠ {timeError}</p>
+                  )}
                   <p className="text-xs text-gray-500 leading-relaxed">
                     {timeUnknown
                       ? "⚠ 시간 미입력 시 연월일 삼주(三柱) 기반으로 풀이됩니다."
-                      : "🕐 태어난 시(時)는 재물·건강 풀이의 핵심 데이터입니다."}
+                      : "🕐 HH:MM 형식으로 입력하세요. 태어난 시(時)는 재물·건강 풀이의 핵심 데이터입니다."}
                   </p>
                 </div>
 

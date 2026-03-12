@@ -19,4 +19,4 @@ venv/
 # macOS
 .DS_Store
 
-Ansible Playbook/hosts.ini
+ansible/hosts.ini
