@@ -8,7 +8,7 @@
 
 > **개발자를 위한 AI 운세 & 실시간 인프라 상태 모니터링 대시보드**
 >
-> 온프레미스 Kubernetes(ARM64) 환경에서 MSA 기반 웹 애플리케이션을 구축하고, GitOps 파이프라인, 외부 AI API(Gemini), 그리고 **데이터 영속성(Persistent Volume)** 연동을 직접 시연하기 위해 구축한 프로젝트입니다.
+> 온프레미스 Kubernetes(ARM64) 환경에서 웹 애플리케이션을 구축하고, GitOps 파이프라인, 외부 AI API(Gemini), 그리고 **데이터 영속성(Persistent Volume)** 연동을 직접 시연하기 위해 구축한 프로젝트입니다.
 
 </div>
 
